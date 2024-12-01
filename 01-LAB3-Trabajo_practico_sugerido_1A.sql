@@ -26,6 +26,7 @@ CATEGORIAS(codigo),
 stock_minimo smallint check (stock_minimo >= 0),
 stock smallint check (stock >= 0),
 estado bit default 1
+primary key (codigo)
 )
 go
 create table PROVINCIAS(
@@ -56,7 +57,7 @@ foreign key (cod_localidad) references LOCALIDADES(codigo)
 )
 go
 create table EMPLEADOS(
-legajo int identity (1000,1) not null primary key,
+legajo int identity (1000,1) primary key,
 dni char(8) not null unique,
 nombre varchar(50) not null,
 apellido varchar(50) not null,
@@ -71,6 +72,36 @@ sueldo money not null,
 fecha_de_ingreso datetime not null check(fecha_de_ingreso <= getdate()),
 foreign key (cod_localidad) references LOCALIDADES(codigo) 
 )
+go
+create table FACTURAS(
+codigo bigint identity,
+dni_cliente char(8) not null,
+leg_vendedor int not null check(leg_vendedor >= 100),
+fecha datetime not null check(fecha <= getdate()),
+forma_de_pago char not null check (forma_de_pago = 'E' or forma_De_pago = 'T'),
+importe money not null
+primary key (codigo),
+foreign key (dni_cliente) references CLIENTES (dni),
+foreign key (leg_vendedor) references EMPLEADOS (legajo)
+)
+go
+create table VENTAS(
+n_venta bigint identity primary key,
+cod_art int not null,
+valor_unitario money not null,
+cantidad smallint not null,
+foreign key (cod_art) references ARTICULOS (codigo)
+)
+go
+alter table FACTURAS 
+ADD num_venta bigint not null,
+constraint fk_n_venta foreign key (num_venta) references ventas (n_venta)
+
+
+
+
+
+
 
 
 
