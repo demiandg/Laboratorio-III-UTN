@@ -19,9 +19,9 @@ when dp.Telefono is null then dp.Email
 else dp.Telefono end 
 from Usuarios as us 
 join Datos_Personales as dp on us.ID = dp.ID 
-where dp.Domicilio like '[aeiou]%' */
+where dp.Domicilio like '[aeiou]%' 
 
--- Listado con nombre de usuario, apellidos, nombres, email o celular o domicilio como 'Información de contacto'.
+-- 04 Listado con nombre de usuario, apellidos, nombres, email o celular o domicilio como 'Información de contacto'.
 select us.NombreUsuario, dp.Apellidos, dp.Nombres, 'Información de contacto' = case
 when dp.Email is not null then dp.Email
 when dp.Celular is not null then dp.Celular
@@ -31,3 +31,6 @@ end
 from Usuarios as us
 join Datos_Personales as dp
 on us.ID = dp.ID
+
+-- 05 Listado con apellido y nombres, nombre del curso y costo de la inscripción de todos los usuarios inscriptos a cursos.
+-- NOTA: No deben figurar los usuarios que no se inscribieron a ningún curso.
